@@ -1,8 +1,13 @@
-import React from 'react'
+import { Image } from "../types"
 
-function ImagePreview() {
+type PreviewProps ={
+  image: Image
+}
+
+function ImagePreview(props: PreviewProps) {
+  const {url, _id} = props.image
   return (
-    <div>ImagePreview</div>
+    <div className="image-preview" style={{backgroundImage: `url(${url})`}}></div>
   )
 }
 

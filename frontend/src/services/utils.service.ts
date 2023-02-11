@@ -1,5 +1,5 @@
 export const utilService ={
-
+    makeId
 }
 
 function debounce(func: Function, wait: number = 3000) {
