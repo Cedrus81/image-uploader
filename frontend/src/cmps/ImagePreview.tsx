@@ -5,7 +5,7 @@ type PreviewProps ={
 }
 
 function ImagePreview(props: PreviewProps) {
-  const {url, _id} = props.image
+  const {url} = props.image
   return (
     <div className="image-preview" style={{backgroundImage: `url(${url})`}}></div>
   )
