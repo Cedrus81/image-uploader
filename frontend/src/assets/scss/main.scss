@@ -1,6 +1,11 @@
 // setup
 @import 'setup/reset.scss';
-@import 'setup/_functions.scss';
+@import 'setup/mixins';
+@import 'setup/functions.scss';
+@import 'setup/_variables.scss';
 @import 'setup/globals';
 @import 'setup/templates';
 @import 'setup/helpers';
+
+// cmps
+@import 'cmps/_UploadPage.scss'
