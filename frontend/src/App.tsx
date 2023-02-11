@@ -4,7 +4,7 @@ import UploadPage from "./views/UploadPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <UploadPage />,
+    element: <Home />,
   },
 ]);
 

@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import ImageGallery from '../cmps/ImageGallery'
 import { useAppSelector, useAppDispatch } from '../hooks'
 import { RootState } from '../store'
 import { addZeitim, removeZeitim } from '../store/slices/pizzaSlice'
@@ -10,11 +11,12 @@ function Home() {
   ,[tosafot])
   
   return (
-   <>
-   <button onClick={() => dispatch(addZeitim())}>add zeitim</button>
-   <button onClick={() => dispatch(removeZeitim())}>remove zeitim</button>
-    <h1>{...tosafot}</h1>
-   </>
+   <main className='home-container upload-card'>
+      <h1>Welcome back!</h1>
+      <h3>Your gallery is waiting:</h3>
+      <button>Upload new</button>
+      <ImageGallery />
+   </main>
   )
 }
 

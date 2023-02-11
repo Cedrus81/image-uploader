@@ -1,0 +1,8 @@
+.image-gallery{
+    // max-height: 50vh;
+    // overflow-y: scroll;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-auto-rows: 180px;
+    gap: 1em;
+}
