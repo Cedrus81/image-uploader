@@ -23,6 +23,8 @@
     }
     button{
         font-family: 'Noto Sans';
+        width: max-content;
+        align-self: center;
         // font-size: 1.2em;
         align-self:center;
         padding: 0.6em 1.3em;
@@ -30,5 +32,45 @@
         color: white;
         border: 0;
         border-radius: 8px;
+    }
+}
+
+.input-box{
+    position: relative;
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:0px 4px 12px rgb(0 0 0 / 10%);
+    border-radius: 12px;
+    input{
+        padding:0.6em 1.3em;
+        border: 0;
+        outline: 0;
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+    button{
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+
+    }
+    label{
+        position: absolute;
+        color: #828282;
+        top: 50%;
+        left: 5%;
+        transform: translateY(-50%);
+        transition: .2s;
+    }
+
+    &:has(input:focus) > label,
+    &:has(input:valid) > label{
+        transform: translate(0, -160%);
+        background-color: white;
+        padding-inline: 0.4em;
+        border-inline: 1px solid rgba(0, 0, 0, 0.2);
+        // box-shadow: 6px 0px 9px rgba(0, 0, 0, 0.2), -6px 0px 9px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
     }
 }

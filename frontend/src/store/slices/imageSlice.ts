@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../index'
 import { utilService } from '../../services/utils.service'
 import { Image } from '../../types'
+import { imageService } from '../../services/image.service'
 // Define a type for the slice state
 // library is a string on URLs
 interface imageState {
