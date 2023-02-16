@@ -1,16 +1,26 @@
 import { useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { imageService } from "../services/image.service";
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { addViaUrl } from "../store/slices/imageSlice";
 function UploadPage() {
-  // const [url, setUrl] = useState('')
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const urlInput = useRef<HTMLInputElement>(null);
-  
+  const [isError, setIsError] = useState(false)
   async function onUploadViaURL(){
     if(urlInput.current) {
-      const res = await imageService.validateURL(urlInput.current.value)
-      console.log(res)
+      let res = await dispatch(addViaUrl(urlInput.current.value))
+      if(res.meta.requestStatus === 'rejected'){
+        setIsError(()=>true)
+        setTimeout(() => {
+          setIsError(()=> false)
+        }, 2000);
+      }
+      else navigate('/')
     }
+    
   }
+
   return (
     <main className='upload-card align-center'>
       <h2>Upload your image</h2>
@@ -28,7 +38,7 @@ function UploadPage() {
         <button onClick={onUploadViaURL}>Submit</button>
       </div>
       <Link to='/'><button>Home</button></Link>
-
+        {isError && <p className="error-text">some sites do not allow upload due to CORS</p>}
     </main>
   )
 }

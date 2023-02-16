@@ -20,6 +20,10 @@
     p{
         text-align: center;
         color: #828282;
+        &.error-text{
+            font-size: 12px;
+            color: #EE4A5B;
+        }
     }
     button{
         font-family: 'Noto Sans';
@@ -74,3 +78,5 @@
         font-size: 14px;
     }
 }
+
+

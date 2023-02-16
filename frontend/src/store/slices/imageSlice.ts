@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../index'
 import { utilService } from '../../services/utils.service'
@@ -27,27 +27,35 @@ const initialState: imageState = {
         { _id: utilService.makeId(), url: 'https://picsum.photos/302/202' },
         { _id: utilService.makeId(), url: 'https://picsum.photos/302/203' },
     ],
-}
+  }
+
+export const addViaUrl = createAsyncThunk('validateUrl', async(url:string , { rejectWithValue}) =>{
+  try{
+      await imageService.validateURL(url)
+  } catch (err){
+    return rejectWithValue(err)
+  }
+  return url
+})
   
-  export const imageSlice = createSlice({
+export const imageSlice = createSlice({
     name: 'image',
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-    //   addZeitim: (state) => {
-    //     state.tosafot.push('zeitim')
-    //   },
-    //   removeZeitim: (state) => {
-    //     state.tosafot.pop()
-    //   },
-      // Use the PayloadAction type to declare the contents of `action.payload`
-      // incrementByAmount: (state, action: PayloadAction<number>) => {
-      //   state.value += action.payload
-      // },
+    },
+    extraReducers: (builder) => {
+      builder.addCase(addViaUrl.fulfilled, (state,action) => {
+        state.library.unshift(imageService.makeImage(action.payload))
+      })
+
+      builder.addCase(addViaUrl.rejected, (state, action) => {
+        console.log(action.payload)
+      })
     },
   })
   
-//   export const { addZeitim, removeZeitim } = pizzaSlice.actions
+  // export const { addViaUrl } = imageSlice.actions
   
   // Other code such as selectors can use the imported `RootState` type
   export const getImages = (state: RootState) => state.image.library
