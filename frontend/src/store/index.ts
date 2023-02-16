@@ -1,16 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import pizzaReducer from './slices/pizzaSlice'
 import imageReducer from './slices/imageSlice'
 // ...
 
 export const store = configureStore({
   reducer: {
-    // Examples:
     image: imageReducer
-    // pizza:pizzaReducer
-    // posts: postsReducer,
-    // comments: commentsReducer,
-    // users: usersReducer,
   },
 })
 

@@ -4,11 +4,16 @@ import { httpService } from "./http.service"
 export const imageService = {
     validateURL,
     makeImage,
-    getImages
+    getImages,
+    addImage
 }
 
 async function getImages(){
     return httpService.get('image', null)
+}
+
+function addImage(url:string){
+    return httpService.post('image', {url})
 }
 
 function makeImage(url:string){
