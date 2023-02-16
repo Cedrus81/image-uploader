@@ -1,9 +1,9 @@
-import { useEffect } from "react";
 import {  createBrowserRouter,  RouterProvider} from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "./hooks";
-import { getImages } from "./store/slices/imageSlice";
 import Home from "./views/Home";
 import UploadPage from "./views/UploadPage";
+import { loadImages } from "./store/slices/imageSlice";
+import { useAppDispatch } from "./hooks";
+import { useEffect } from "react";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -17,7 +17,10 @@ const router = createBrowserRouter([
 
 
 function App() {
-
+  const dispatch = useAppDispatch()
+  useEffect(() =>{
+    dispatch(loadImages())
+  },[])
   return (
     <RouterProvider router={router}/>
   )

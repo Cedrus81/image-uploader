@@ -1,8 +1,14 @@
 import axios from "axios"
 import { utilService } from "./utils.service"
+import { httpService } from "./http.service"
 export const imageService = {
     validateURL,
-    makeImage
+    makeImage,
+    getImages
+}
+
+async function getImages(){
+    return httpService.get('image', null)
 }
 
 function makeImage(url:string){
