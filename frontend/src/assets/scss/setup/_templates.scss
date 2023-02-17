@@ -25,7 +25,8 @@
             color: #EE4A5B;
         }
     }
-    button{
+    button,
+    input[type=file]{
         font-family: 'Noto Sans';
         width: max-content;
         align-self: center;

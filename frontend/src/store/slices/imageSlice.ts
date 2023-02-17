@@ -17,11 +17,16 @@ const initialState: imageState = {
 export const addViaUrl = createAsyncThunk('validateUrl', async(url:string , { rejectWithValue}) =>{
   try{
       await imageService.validateURL(url)
-      return await imageService.addImage(url)
+      return await imageService.addImage(url, false)
   } catch (err){
     return rejectWithValue(err)
   }
   return url
+})
+
+export const addViaFile = createAsyncThunk('addViaFile', async(path:string | undefined) => {
+  if(!path) return
+  return await imageService.addImage(path, true)
 })
 
 export const loadImages = createAsyncThunk('loadImages', async() =>{
@@ -55,7 +60,7 @@ export const imageSlice = createSlice({
     },
   })
   
-  export const {  } = imageSlice.actions
+  // export const {  } = imageSlice.actions
   
   // Other code such as selectors can use the imported `RootState` type
   export const getImages = (state: RootState) => state.image.library

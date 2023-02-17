@@ -1,12 +1,14 @@
 import { useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { addViaUrl } from "../store/slices/imageSlice";
+import { addViaFile, addViaUrl } from "../store/slices/imageSlice";
 function UploadPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const urlInput = useRef<HTMLInputElement>(null);
+  const urlInput = useRef<HTMLInputElement>(null)
+  const fileInput = useRef<HTMLInputElement>(null)
   const [isError, setIsError] = useState(false)
+  const [prev, setPrev] = useState(null)
   async function onUploadViaURL(){
     if(urlInput.current) {
       let res = await dispatch(addViaUrl(urlInput.current.value))
@@ -18,9 +20,12 @@ function UploadPage() {
       }
       else navigate('/')
     }
-    
   }
-
+  async function onUploadViaFile() {
+    await dispatch(addViaFile(fileInput.current?.value))
+  }
+  
+  
   return (
     <main className='upload-card align-center'>
       <h2>Upload your image</h2>
@@ -30,7 +35,8 @@ function UploadPage() {
         <p>Drag & Drop your image here</p>
       </section>
       <p>OR</p>
-      <button>Choose a file</button>
+      <button onClick={()=>fileInput.current?.click()}>Choose a file</button>
+      <input type="file" accept="image/*" className="inputFile" onChange={onUploadViaFile} ref={fileInput} hidden />
       <p>Save image via URL:</p>
       <div className="input-box">
         <label className="floating-label" htmlFor="inputUrl">URL</label>
