@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit'
+// import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../index'
-import { utilService } from '../../services/utils.service'
+// import { utilService } from '../../services/utils.service'
 import { Image } from '../../types'
 import { imageService } from '../../services/image.service'
 // Define a type for the slice state
@@ -17,17 +17,12 @@ const initialState: imageState = {
 export const addViaUrl = createAsyncThunk('validateUrl', async(url:string , { rejectWithValue}) =>{
   try{
       await imageService.validateURL(url)
-      return await imageService.addImage(url, false)
+      return await imageService.addImage(url)
   } catch (err){
     return rejectWithValue(err)
   }
-  return url
 })
 
-export const addViaFile = createAsyncThunk('addViaFile', async(path:string | undefined) => {
-  if(!path) return
-  return await imageService.addImage(path, true)
-})
 
 export const loadImages = createAsyncThunk('loadImages', async() =>{
   try{

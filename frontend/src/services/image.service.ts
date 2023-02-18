@@ -12,8 +12,8 @@ async function getImages(){
     return httpService.get('image', null)
 }
 
-function addImage(path:string, isFile = false){
-    return httpService.post('image', {path, isFile})
+function addImage(url:string){
+    return httpService.post('image', {url})
 }
 
 function makeImage(url:string){
