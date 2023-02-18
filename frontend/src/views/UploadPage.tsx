@@ -1,16 +1,14 @@
-import { ChangeEvent, useRef, useState } from "react"
+import { ChangeEvent, useRef, useState, DragEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { uploadService } from "../services/upload.service";
 import { addViaUrl } from "../store/slices/imageSlice";
 function UploadPage() {
-  // const noPrev = `data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='12' ry='12' stroke='%2397BEF4FF' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e`
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const urlInput = useRef<HTMLInputElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const [isError, setIsError] = useState(false)
-  // const [prev, setPrev] = useState('')
   async function onUploadViaURL(){
     if(urlInput.current) {
       let res = await dispatch(addViaUrl(urlInput.current.value))
@@ -25,9 +23,26 @@ function UploadPage() {
   }
   async function onUploadViaFile(e: ChangeEvent<HTMLInputElement>) {
     if(e.target.files){
-      const res = await uploadService.uploadImg(e)
+      const res = await uploadService.uploadImg(e.target.files)
       await dispatch(addViaUrl(res.secure_url))
       }
+      navigate('/')
+  }
+
+  function handleDragOver(e: DragEvent<HTMLElement>){
+    e.preventDefault()
+    // console.log('handledragover:',e)
+  }
+
+  async function handleDrop(e: DragEvent<HTMLElement>){
+    e.preventDefault()
+    console.log('handledrop:',e.dataTransfer.files)
+    const res = await uploadService.uploadImg(e.dataTransfer.files)
+
+    await dispatch(addViaUrl(res.secure_url))
+
+    navigate('/')
+
 
   }
   
@@ -36,7 +51,10 @@ function UploadPage() {
     <main className='upload-card align-center'>
       <h2>Upload your image</h2>
       <p>File should be Jpeg, Png,...</p>
-      <section className='dnd-area'>
+      <section className='dnd-area'
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+      >
           <img src="./dnd.svg" alt="drag image here" />
           <p>Drag & Drop your image here</p>
       </section>
