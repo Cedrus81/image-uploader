@@ -1,8 +1,9 @@
 import { ChangeEvent, useRef, useState, DragEvent } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import { uploadService } from "../services/upload.service";
-import { addViaUrl } from "../store/slices/imageSlice";
+import { addImage } from "../store/slices/imageSlice";
+import { setSelectedImage } from "../store/slices/imageSlice";
 function UploadPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -11,22 +12,22 @@ function UploadPage() {
   const [isError, setIsError] = useState(false)
   async function onUploadViaURL(){
     if(urlInput.current) {
-      let res = await dispatch(addViaUrl(urlInput.current.value))
-      if(res.meta.requestStatus === 'rejected'){
+      let newImage = await dispatch(addImage(urlInput.current.value))
+      if(newImage.meta.requestStatus === 'rejected'){
         setIsError(()=>true)
         setTimeout(() => {
           setIsError(()=> false)
         }, 2000);
       }
-      else navigate('/')
+      else navigate(`/img/${newImage.payload.insertedId}`)
     }
   }
   async function onUploadViaFile(e: ChangeEvent<HTMLInputElement>) {
     if(e.target.files){
       const res = await uploadService.uploadImg(e.target.files)
-      await dispatch(addViaUrl(res.secure_url))
+      const newImage = await dispatch(addImage(res.secure_url))
+      navigate(`/img/${newImage.payload.insertedId}`)
       }
-      navigate('/')
   }
 
   function handleDragOver(e: DragEvent<HTMLElement>){
@@ -39,7 +40,7 @@ function UploadPage() {
     console.log('handledrop:',e.dataTransfer.files)
     const res = await uploadService.uploadImg(e.dataTransfer.files)
 
-    await dispatch(addViaUrl(res.secure_url))
+    await dispatch(addImage(res.secure_url))
 
     navigate('/')
 
@@ -55,7 +56,7 @@ function UploadPage() {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
       >
-          <img src="./dnd.svg" alt="drag image here" />
+          <img src="./dnd.svg" alt="drag image here" draggable='false' />
           <p>Drag & Drop your image here</p>
       </section>
       <p>OR</p>

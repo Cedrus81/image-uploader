@@ -1,5 +1,5 @@
 // import { is } from "immer/dist/internal"
-import { ChangeEvent, DragEvent } from "react"
+// import { ChangeEvent, DragEvent } from "react"
 
 export const uploadService = {
   uploadImg

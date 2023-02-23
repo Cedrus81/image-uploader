@@ -8,16 +8,19 @@ import { imageService } from '../../services/image.service'
 // library is a string on URLs
 interface imageState {
   library: Image[]
+  selectedImage: Image | null
 }
 
 const initialState: imageState = {
-    library: []
+    library: [],
+    selectedImage: null
   }
 
-export const addViaUrl = createAsyncThunk('validateUrl', async(url:string , { rejectWithValue}) =>{
+export const addImage = createAsyncThunk('validateUrl', async(url:string , { rejectWithValue}) =>{
   try{
       await imageService.validateURL(url)
-      return await imageService.addImage(url)
+      const newImage = await imageService.addImage(url)
+      return newImage
   } catch (err){
     return rejectWithValue(err)
   }
@@ -38,13 +41,16 @@ export const imageSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
+      setSelectedImage: (state, {payload}) => {
+        state.selectedImage = payload
+      },
     },
     extraReducers: (builder) => {
-      builder.addCase(addViaUrl.fulfilled, (state,{payload}) => {
-        state.library.unshift(payload)
+      builder.addCase(addImage.fulfilled, (state,{payload}) => {
+        state.library.unshift(payload.ops[0])
       })
 
-      builder.addCase(addViaUrl.rejected, (state, action) => {
+      builder.addCase(addImage.rejected, (state, action) => {
         console.log(action.payload)
       })
 
@@ -55,7 +61,7 @@ export const imageSlice = createSlice({
     },
   })
   
-  // export const {  } = imageSlice.actions
+  export const { setSelectedImage } = imageSlice.actions
   
   // Other code such as selectors can use the imported `RootState` type
   export const getImages = (state: RootState) => state.image.library

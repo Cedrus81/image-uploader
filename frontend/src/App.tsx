@@ -4,6 +4,7 @@ import UploadPage from "./views/UploadPage";
 import { loadImages } from "./store/slices/imageSlice";
 import { useAppDispatch } from "./hooks";
 import { useEffect } from "react";
+import ImageDetails from "./views/ImageDetails";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
   {
     path: '/upload',
     element: <UploadPage />
+  },
+  {
+  path:'/img/:id',
+  element: <ImageDetails />
   }
 ]);
 

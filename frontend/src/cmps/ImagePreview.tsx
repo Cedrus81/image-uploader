@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import { Image } from "../types"
 
 type PreviewProps ={
@@ -5,9 +6,11 @@ type PreviewProps ={
 }
 
 function ImagePreview(props: PreviewProps) {
-  const {url} = props.image
+  const {url, _id} = props.image
   return (
-    <div className="image-preview" style={{backgroundImage: `url(${url})`}}></div>
+    <Link to={`/img/${_id}`}>
+      <div className="image-preview" style={{backgroundImage: `url(${url})`}}></div>
+    </Link>
   )
 }
 

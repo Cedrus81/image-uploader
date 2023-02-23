@@ -1,0 +1,46 @@
+.success-page{
+    .success-icon{
+        display: flex;
+        align-self: center;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.375em;
+        width: 2.1875em;
+        height: 2.1875em;
+        background-color: #219653;
+        border-radius: 50%;
+        color: white;
+    }
+    .image-preview{
+        background-color: #eaeaea;
+        width: 21.125em;
+        height: 14em;
+        border-radius: 12px;
+        background-size: cover;
+    }
+    .url-display{
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 21.125em;
+        height: 2.125em;
+        input{
+            border: 2px solid #E0E0E0;
+            border-radius: 8px;
+            background-color: #F6F8FB;
+            width: 100%;
+            height: 100%;
+            padding-inline: 0.5rem;
+            color: #4F4F4F;
+            font-size: 0.5em;
+            line-break: anywhere;
+            outline: 0;
+        }
+        button{
+            position: absolute;
+            right: 0;
+        }
+    }
+    
+}
