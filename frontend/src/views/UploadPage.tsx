@@ -3,61 +3,85 @@ import { Link, useNavigate } from "react-router-dom"
 import { useAppDispatch } from "../hooks";
 import { uploadService } from "../services/upload.service";
 import { addImage } from "../store/slices/imageSlice";
-import { setSelectedImage } from "../store/slices/imageSlice";
 function UploadPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const urlInput = useRef<HTMLInputElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
   const [isError, setIsError] = useState(false)
+  const [isDragover, setIsDragOver] = useState(false)
   async function onUploadViaURL(){
     if(urlInput.current) {
-      let newImage = await dispatch(addImage(urlInput.current.value))
-      if(newImage.meta.requestStatus === 'rejected'){
-        setIsError(()=>true)
-        setTimeout(() => {
-          setIsError(()=> false)
-        }, 2000);
-      }
-      else navigate(`/img/${newImage.payload.insertedId}`)
+      saveImage(urlInput.current.value)
+    //   let newImage = await dispatch(addImage(urlInput.current.value))
+    //   if(newImage.meta.requestStatus === 'rejected'){
+    //     setIsError(()=>true)
+    //     setTimeout(() => {
+    //       setIsError(()=> false)
+    //     }, 2000);
+    //   }
+    //   else navigate(`/img/${newImage.payload.insertedId}`)
     }
   }
   async function onUploadViaFile(e: ChangeEvent<HTMLInputElement>) {
     if(e.target.files){
-      const res = await uploadService.uploadImg(e.target.files)
-      const newImage = await dispatch(addImage(res.secure_url))
-      navigate(`/img/${newImage.payload.insertedId}`)
+      onFile(e.target.files)
       }
   }
 
-  function handleDragOver(e: DragEvent<HTMLElement>){
+  
+  function handleDragEnter(e: DragEvent<HTMLElement>){
     e.preventDefault()
-    // console.log('handledragover:',e)
+    setIsDragOver(()=> true)
   }
 
-  async function handleDrop(e: DragEvent<HTMLElement>){
+  function handleDragLeave(e: DragEvent<HTMLElement>){
     e.preventDefault()
-    console.log('handledrop:',e.dataTransfer.files)
-    const res = await uploadService.uploadImg(e.dataTransfer.files)
-
-    await dispatch(addImage(res.secure_url))
-
-    navigate('/')
-
-
+    e.stopPropagation()
+    setIsDragOver(()=> false)
   }
   
+   function handleDrop(e: DragEvent<HTMLElement>){
+    handleDragLeave(e)
+    // e.preventDefault()
+    // e.stopPropagation()
+    onFile(e.dataTransfer.files)
+    // console.log('handledrop:',e.dataTransfer.files)
+    // const res = await uploadService.uploadImg(e.dataTransfer.files)
+
+    // await dispatch(addImage(res.secure_url))
+
+    // navigate('/')
+  }
+  
+  async function onFile(file: FileList){
+    const res = await uploadService.uploadImg(file)
+    saveImage(res.secure_url)
+  }
+
+  async function saveImage(url:string) {
+    const newImage = await dispatch(addImage(url))
+    navigate(`/img/${newImage.payload.insertedId}`)
+  }
   
   return (
     <main className='upload-card align-center'>
       <h2>Upload your image</h2>
       <p>File should be Jpeg, Png,...</p>
-      <section className='dnd-area'
-      onDragOver={handleDragOver}
+      <section className={`dnd-area ${isDragover ? 'dragging' : ''}`}
+      // onDragEnter={handleDragEnter}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragEnter}
       onDrop={handleDrop}
       >
-          <img src="./dnd.svg" alt="drag image here" draggable='false' />
-          <p>Drag & Drop your image here</p>
+        {isDragover ?
+          <p>Drop your image here!</p>
+        : 
+          <>
+            <img src="./dnd.svg" alt="drag image here" draggable='false' />
+            <p>Drag & Drop your image here</p>
+          </>
+          }
       </section>
       <p>OR</p>
       <button onClick={()=>fileInput.current?.click()}>Choose a file</button>

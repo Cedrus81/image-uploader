@@ -10,9 +10,13 @@
     background-color: #F6F8FB;
     color: #BDBDBD;
     border-radius: 12px;
+    min-height: 225px;
     p{
         color: #BDBDBD;
         margin-bottom: 0.33em;
+    }
+    &.dragging{
+        background-color: #e2e6a1;
     }
     // img{
     //     user-drag: none;
