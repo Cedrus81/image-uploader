@@ -26,6 +26,15 @@ export const addImage = createAsyncThunk('validateUrl', async(url:string , { rej
   }
 })
 
+export const removeImage = createAsyncThunk('removeImage', async(id:string) =>{
+  try{
+    await imageService.removeImage(id)
+    return id
+  }catch(e){
+    console.log('Error, could not delete image:', e)
+  }
+})
+
 
 export const loadImages = createAsyncThunk('loadImages', async() =>{
   try{
@@ -41,9 +50,6 @@ export const imageSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-      setSelectedImage: (state, {payload}) => {
-        state.selectedImage = payload
-      },
     },
     extraReducers: (builder) => {
       builder.addCase(addImage.fulfilled, (state,{payload}) => {
@@ -54,6 +60,10 @@ export const imageSlice = createSlice({
         console.log(action.payload)
       })
 
+      builder.addCase(removeImage.fulfilled, (state, {payload}) => {
+
+      })
+
       builder.addCase(loadImages.fulfilled, (state,{payload}) => {
         state.library = payload
       })
@@ -61,7 +71,7 @@ export const imageSlice = createSlice({
     },
   })
   
-  export const { setSelectedImage } = imageSlice.actions
+  export const { } = imageSlice.actions
   
   // Other code such as selectors can use the imported `RootState` type
   export const getImages = (state: RootState) => state.image.library
