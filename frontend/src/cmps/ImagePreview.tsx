@@ -9,7 +9,6 @@ type PreviewProps ={
 
 function ImagePreview(props: PreviewProps) {
   const {url, _id} = props.image
-  
   function onRemoveImage(e: MouseEvent){
     e.preventDefault()
     props.removeImage(_id)

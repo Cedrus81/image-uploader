@@ -3,9 +3,10 @@ import { utilService } from "./utils.service"
 import { httpService } from "./http.service"
 export const imageService = {
     validateURL,
-    makeImage,
+    // makeImage,
     getImages,
-    addImage
+    addImage,
+    removeImage
 }
 
 async function getImages(){
@@ -16,12 +17,16 @@ function addImage(url:string){
     return httpService.post('image', {url})
 }
 
-function makeImage(url:string){
-    return {
-        _id:utilService.makeId(),
-        url
-    }
+function removeImage(id:string){
+    return httpService.delete('image', id)
 }
+
+// function makeImage(url:string){
+//     return {
+//         _id:utilService.makeId(),
+//         url
+//     }
+// }
 
 async function validateURL(url:string):Promise<boolean>{
     try{
