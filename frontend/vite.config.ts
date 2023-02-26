@@ -14,7 +14,7 @@ export default defineConfig({
     }
   },
   build:{
-    outDir:'../backend/public',
+    outDir:'../../image-uploader(backend)/public',
     emptyOutDir:true
   }
 })

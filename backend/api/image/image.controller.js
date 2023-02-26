@@ -30,6 +30,7 @@ async function getImageById(req, res) {
 async function addImage(req, res) {
   try {
     const addedImage = await imageService.add(req.body.url)
+    console.log(addedImage)
     res.json(addedImage)
   } catch (err) {
     logger.error('Failed to add image', err)
