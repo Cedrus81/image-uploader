@@ -14,7 +14,6 @@ function ImageDetails() {
     )
   }
   const isNew = Date.now() - image.addedAt <= 5000
-  console.log('isnew:',isNew)
   return (
     <main className="upload-card success-page">
         {isNew && <>

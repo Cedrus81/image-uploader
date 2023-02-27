@@ -55,8 +55,8 @@ async function removeImage(req, res) {
   try {
     const imageId = req.params.id
     console.log('remove id:', imageId)
-    // const removedId = await imageService.remove(imageId)
-    // res.send(removedId)
+    const removedId = await imageService.remove(imageId)
+    res.send(removedId)
   } catch (err) {
     logger.error('Failed to remove image', err)
     res.status(500).send({ err: 'Failed to remove image' })

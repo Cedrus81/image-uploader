@@ -18,7 +18,7 @@ function addImage(url:string){
 }
 
 function removeImage(id:string){
-    return httpService.delete('image', id)
+    return httpService.delete('image/' + id, {})
 }
 
 // function makeImage(url:string){

@@ -26,12 +26,12 @@ export const addImage = createAsyncThunk('validateUrl', async(url:string , { rej
   }
 })
 
-export const removeImage = createAsyncThunk('removeImage', async(id:string) =>{
+export const removeImage = createAsyncThunk('removeImage', async(id:string, { rejectWithValue}) =>{
   try{
     await imageService.removeImage(id)
     return id
   }catch(e){
-    console.log('Error, could not delete image:', e)
+    return 'Error, could not delete image'
   }
 })
 
@@ -61,12 +61,18 @@ export const imageSlice = createSlice({
       })
 
       builder.addCase(removeImage.fulfilled, (state, {payload}) => {
-
+        const idx = state.library.findIndex(img => img._id == payload)
+        state.library.splice(idx, 1)
       })
-
+      
+      builder.addCase(removeImage.rejected, (state,{payload}) => {
+        console.log(payload);
+      })
+      
       builder.addCase(loadImages.fulfilled, (state,{payload}) => {
         state.library = payload
       })
+
 
     },
   })
