@@ -1,5 +1,4 @@
 import axios from "axios"
-import { utilService } from "./utils.service"
 import { httpService } from "./http.service"
 export const imageService = {
     validateURL,

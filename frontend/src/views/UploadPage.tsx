@@ -8,19 +8,12 @@ function UploadPage() {
   const navigate = useNavigate()
   const urlInput = useRef<HTMLInputElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
-  const [isError, setIsError] = useState(false)
+  // const [isError, setIsError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isDragover, setIsDragOver] = useState(false)
   async function onUploadViaURL(){
     if(urlInput.current) {
       saveImage(urlInput.current.value)
-    //   let newImage = await dispatch(addImage(urlInput.current.value))
-    //   if(newImage.meta.requestStatus === 'rejected'){
-    //     setIsError(()=>true)
-    //     setTimeout(() => {
-    //       setIsError(()=> false)
-    //     }, 2000);
-    //   }
-    //   else navigate(`/img/${newImage.payload.insertedId}`)
     }
   }
   async function onUploadViaFile(e: ChangeEvent<HTMLInputElement>) {
@@ -43,27 +36,30 @@ function UploadPage() {
   
    function handleDrop(e: DragEvent<HTMLElement>){
     handleDragLeave(e)
-    // e.preventDefault()
-    // e.stopPropagation()
     onFile(e.dataTransfer.files)
-    // console.log('handledrop:',e.dataTransfer.files)
-    // const res = await uploadService.uploadImg(e.dataTransfer.files)
-
-    // await dispatch(addImage(res.secure_url))
-
-    // navigate('/')
   }
   
   async function onFile(file: FileList){
+    setIsLoading(()=> true)
     const res = await uploadService.uploadImg(file)
     saveImage(res.secure_url)
   }
 
   async function saveImage(url:string) {
+    setIsLoading(()=> true) // only false in case it was added via url
     const newImage = await dispatch(addImage(url))
     navigate(`/img/${newImage.payload.insertedId}`)
   }
-  
+  if (isLoading){
+    return(
+      <main className="upload-card progress-card">
+        <h2>Uploading...</h2>
+        <div className="progress-bar">
+          <div className="progress-thumb"></div>
+        </div>
+      </main>
+    )
+  }
   return (
     <main className='upload-card align-center'>
       <h2>Upload your image</h2>
@@ -93,7 +89,7 @@ function UploadPage() {
         <button onClick={onUploadViaURL}>Submit</button>
       </div>
       <Link to='/'><button>Home</button></Link>
-        {isError && <p className="error-text">some sites do not allow upload due to CORS</p>}
+        {/* {isError && <p className="error-text">some sites do not allow upload due to CORS</p>} */}
     </main>
   )
 }

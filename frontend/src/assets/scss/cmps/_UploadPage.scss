@@ -26,4 +26,36 @@
     //     -webkit-user-select: none;
     //     -ms-user-select: none;
     // }
+
+}
+
+.upload-card.progress-card{
+    width: 25rem;
+    position: relative;
+    top: 30%;
+    .progress-bar{
+        position: relative;
+        width:100%;
+        background-color: #f2f2f2;
+        height: 0.5em;
+        border-radius: 0.5em;
+        overflow: hidden;
+        .progress-thumb{
+            background-color: #2F80ED;
+            height: 100%;
+            width: 33%;
+            border-radius: 0.5em;
+            position: absolute;
+            transform: translateX(-100%);
+            animation: progress-bar-animation 1.5s ease-in;
+            animation-iteration-count: infinite;
+
+        }
+    }
+}
+
+@keyframes progress-bar-animation {
+    100%{
+        transform: translateX(302%);
+    }
 }
