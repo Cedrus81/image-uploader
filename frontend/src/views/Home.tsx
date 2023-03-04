@@ -17,15 +17,11 @@ function Home() {
     // setIsPopup(()=>true)
   }
 
-  function removeImageAproved(){
-
-  }
-
   return (
    <main className='home-container upload-card'>
       <h1>Welcome back!</h1>
       <h3>Your gallery is waiting:</h3>
-      <Link to='/upload'><button>Upload new</button></Link>
+      <Link to='/upload' className={images.length > 12 ? 'inactive' : ''} title={images.length > 12 ? 'The gallery is limited up to 12 at any given time' : ''}><button>Upload new</button></Link>
       {images.length ? 
       <ImageGallery images={images} removeImage={removeImageWarning} />
       :

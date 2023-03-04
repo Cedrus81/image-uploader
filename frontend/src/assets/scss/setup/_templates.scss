@@ -38,6 +38,12 @@
         border: 0;
         border-radius: 8px;
     }
+    a.inactive,
+    button.inactive{
+        opacity: 0.8;
+        cursor: default;
+        pointer-events: none;
+    }
 
 }
 

@@ -1,16 +1,22 @@
-import { ChangeEvent, useRef, useState, DragEvent } from "react"
+import { ChangeEvent, useRef, useState, DragEvent, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { useAppDispatch } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { uploadService } from "../services/upload.service";
 import { addImage } from "../store/slices/imageSlice";
 function UploadPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const shouldRedirect = useAppSelector(state => state.image.library.length > 12)
+  
+  useEffect(()=>{
+    if(shouldRedirect) navigate('/')
+  },[])
+  
   const urlInput = useRef<HTMLInputElement>(null)
   const fileInput = useRef<HTMLInputElement>(null)
-  // const [isError, setIsError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isDragover, setIsDragOver] = useState(false)
+
   async function onUploadViaURL(){
     if(urlInput.current) {
       saveImage(urlInput.current.value)
