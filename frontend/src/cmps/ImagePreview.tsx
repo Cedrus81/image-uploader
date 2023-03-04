@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import { Image } from "../types"
 import { ImCross } from "react-icons/im";
 import { MouseEvent } from "react";
+
 type PreviewProps ={
   image: Image
   removeImage: Function

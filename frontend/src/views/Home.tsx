@@ -1,4 +1,3 @@
-// import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ImageGallery from '../cmps/ImageGallery'
 // import Popup from '../cmps/Popup'

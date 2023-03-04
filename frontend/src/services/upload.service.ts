@@ -4,7 +4,7 @@
 export const uploadService = {
   uploadImg
 }
-function uploadImg(files: FileList) {
+function uploadImg(file: File) {
 
   // const file = _getFile(e)
   const CLOUD_NAME = import.meta.env.VITE_CLOUD_NAME
@@ -13,7 +13,7 @@ function uploadImg(files: FileList) {
 
   const formData = new FormData()
   formData.append('upload_preset', UPLOAD_PRESET)
-  formData.append('file', files[0])
+  formData.append('file', file)
 
   return fetch(UPLOAD_URL, {
     method: 'POST',

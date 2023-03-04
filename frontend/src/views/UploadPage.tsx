@@ -1,8 +1,9 @@
 import { ChangeEvent, useRef, useState, DragEvent, useEffect } from "react"
+import imageCompression from 'browser-image-compression';
 import { Link, useNavigate } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { uploadService } from "../services/upload.service";
-import { addImage } from "../store/slices/imageSlice";
+import { useAppDispatch, useAppSelector } from "../hooks"
+import { uploadService } from "../services/upload.service"
+import { addImage } from "../store/slices/imageSlice"
 function UploadPage() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -24,7 +25,7 @@ function UploadPage() {
   }
   async function onUploadViaFile(e: ChangeEvent<HTMLInputElement>) {
     if(e.target.files){
-      onFile(e.target.files)
+      onFile(e.target.files.item(0) as File)
       }
   }
 
@@ -42,13 +43,18 @@ function UploadPage() {
   
    function handleDrop(e: DragEvent<HTMLElement>){
     handleDragLeave(e)
-    onFile(e.dataTransfer.files)
+    onFile(e.dataTransfer.files.item(0) as File)
   }
   
-  async function onFile(file: FileList){
+  async function onFile(file: File){
     setIsLoading(()=> true)
-    const res = await uploadService.uploadImg(file)
-    saveImage(res.secure_url)
+    try{
+      const compressedFile = await imageCompression(file , {maxWidthOrHeight:350});
+      const res = await uploadService.uploadImg(compressedFile)
+      saveImage(res.secure_url)
+    } catch(e){
+      console.log(e)
+    }
   }
 
   async function saveImage(url:string) {
