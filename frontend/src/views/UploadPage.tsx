@@ -100,8 +100,8 @@ function UploadPage() {
         <input id="inputUrl" type="text" ref={urlInput} required />
         <button onClick={onUploadViaURL}>Submit</button>
       </div>
+      <p className="input-box-msg">Some websites may not allow sharing their media</p>
       <Link to='/'><button>Home</button></Link>
-        {/* {isError && <p className="error-text">some sites do not allow upload due to CORS</p>} */}
     </main>
   )
 }
