@@ -62,5 +62,16 @@
             }
         }
     }
+}
 
+@media screen and (max-width: 667px){
+    .image-gallery {
+        .image-preview-options{
+            background: none;
+            opacity: 1;
+            button{
+                transform:translateY(2em) scale(1.2)
+            }
+        }
+    }
 }
